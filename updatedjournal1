@@ -28,9 +28,9 @@
             --bg-primary: #0d1b2a;
             --bg-secondary: #1b263b;
             --bg-tertiary: #404040;
-            --text-primary: #f0f4f8;
-            --text-secondary: #b3b3b3;
-            --text-muted: #808080;
+            --text-primary: #ffffff; /* Brighter */
+            --text-secondary: #d1d5db; /* Brighter */
+            --text-muted: #9ca3af; /* Brighter */
             --border-color: #555555;
             --shadow: rgba(0, 0, 0, 0.3);
             --accent-color: #00d4aa;

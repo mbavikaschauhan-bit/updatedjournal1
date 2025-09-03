@@ -318,40 +318,6 @@
                             <p class="text-xs" style="color: var(--text-muted);">Returns are shown once deposits are made.</p>
                         </div>
                         
-
-                        <!-- Gemini AI Features -->
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                            <div class="rounded-lg shadow-sm p-6" style="background-color: var(--bg-primary); border: 1px solid var(--border-color);">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold" style="color: var(--text-primary);">✨ AI Weekly Insights</h3>
-                                        <p class="text-sm" style="color: var(--text-secondary);">Get a summary of your trading performance.</p>
-                                    </div>
-                                    <button id="ai-summary-btn" class="btn-primary font-semibold py-2 px-4 rounded-md shadow-sm text-sm whitespace-nowrap">
-                                        <span class="btn-text">Generate Summary</span>
-                                        <span class="spinner hidden"></span>
-                                    </button>
-                                </div>
-                                <div id="ai-summary-output" class="text-sm mt-4 p-4 rounded-md border hidden" style="background-color: var(--bg-secondary); border-color: var(--border-color);"></div>
-                            </div>
-                            <div class="rounded-lg shadow-sm p-6" style="background-color: var(--bg-primary); border: 1px solid var(--border-color);">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h3 class="text-lg font-semibold" style="color: var(--text-primary);">✨ Market Pulse</h3>
-                                        <p class="text-sm" style="color: var(--text-secondary);">Get an AI summary of today's Indian market news.</p>
-                                    </div>
-                                    <button id="market-pulse-btn" class="btn-primary font-semibold py-2 px-4 rounded-md shadow-sm text-sm whitespace-nowrap">
-                                        <span class="btn-text">Get Today's Pulse</span>
-                                        <span class="spinner hidden"></span>
-                                    </button>
-                                </div>
-                                <div id="market-pulse-output" class="text-sm mt-4 p-4 rounded-md border hidden" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
-                                    <p id="market-pulse-text"></p>
-                                    <div id="market-pulse-sources" class="mt-4 text-xs"></div>
-                                </div>
-                            </div>
-                        </div>
-
                         <!-- Achievements Section -->
                         <div class="rounded-lg shadow-sm p-6 mb-8" style="background-color: var(--bg-primary); border: 1px solid var(--border-color);">
                             <h3 class="text-xl font-bold mb-4" style="color: var(--text-primary);">🏆 Achievements</h3>
@@ -446,20 +412,6 @@
                                             <div>
                                                  <h4 class="font-semibold mb-2" style="color: var(--text-primary);">Qualitative Data</h4>
                                                 <div><label for="reasons" class="block text-sm" style="color: var(--text-secondary);">Reasons for Entry/Exit (Optional)</label><textarea name="reasons" id="reasons" rows="3" class="mt-1 w-full rounded-md border focus:border-blue-500 focus:ring-blue-500" style="background-color: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);"></textarea></div>
-                                            </div>
-                                            <!-- AI Analysis -->
-                                            <div class="border-t pt-6" style="border-color: var(--border-color);">
-                                                <div class="flex justify-between items-start">
-                                                    <div>
-                                                        <h4 class="font-semibold mb-2" style="color: var(--text-primary);">✨ AI Trade Analysis</h4>
-                                                        <p class="text-sm" style="color: var(--text-secondary);">Get an objective critique of your trade plan before you save it.</p>
-                                                    </div>
-                                                    <button type="button" id="ai-trade-analysis-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded-md shadow-sm text-sm whitespace-nowrap">
-                                                        <span class="btn-text">Analyze Trade</span>
-                                                        <span class="spinner hidden"></span>
-                                                    </button>
-                                                </div>
-                                                <div id="ai-trade-analysis-output" class="text-sm mt-4 p-4 rounded-md border hidden" style="background-color: var(--bg-secondary); border-color: var(--border-color);"></div>
                                             </div>
                                         </div>
                                         <div class="p-4 border-t flex justify-end" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
@@ -882,7 +834,7 @@
                     </div>
                     <div>
                         <label for="max-risk" class="block text-sm font-medium" style="color: var(--text-secondary);">Max Risk Per Trade (%)</label>
-                        <input type="number" step="0.1" id="max-risk" class="mt-1 w-full rounded-md border focus:border-blue-500 focus:ring-blue-500" style="background-color: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);" placeholder="2" required>
+                        <input type="number" step="0.1" id="max-risk" class="mt-1 block w-full rounded-md border focus:border-blue-500 focus:ring-blue-500" style="background-color: var(--bg-primary); color: var(--text-primary); border-color: var(--border-color);" placeholder="2" required>
                     </div>
                 </div>
                 <div class="p-4 border-t flex justify-end items-center space-x-3" style="background-color: var(--bg-secondary); border-color: var(--border-color);">
@@ -1299,7 +1251,6 @@
              tradeForm.reset();
              document.getElementById('trade-id').value = '';
              document.getElementById('trade-form-title').textContent = 'Log a New Trade';
-             document.getElementById('ai-trade-analysis-output').classList.add('hidden');
         };
 
         document.getElementById('asset-input').addEventListener('input', async (e) => {
@@ -2200,29 +2151,26 @@
         };
         
         const renderAchievements = () => {
-            const containers = document.querySelectorAll('.achievements-container');
-            if (containers.length === 0) return;
+            const container = document.querySelector('.achievements-container');
+            if (!container) return;
 
-            let content;
             if (appState.achievements.length === 0) {
-                content = `<p class="col-span-full text-sm text-center py-4" style="color: var(--text-muted);">No achievements yet. Complete a challenge to earn one!</p>`;
-            } else {
-                const badgeSVGs = {
-                    'Bronze Trader': `<svg viewBox="0 0 36 36" fill="#cd7f32" role="img" aria-label="Bronze Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
-                    'Silver Trader': `<svg viewBox="0 0 36 36" fill="#c0c0c0" role="img" aria-label="Silver Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
-                    'Gold Trader': `<svg viewBox="0 0 36 36" fill="#ffd700" role="img" aria-label="Gold Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
-                };
-                content = appState.achievements.map(ach => `
-                    <div class="flex flex-col items-center p-2 rounded-lg transition-transform transform hover:scale-105" style="background-color: var(--bg-tertiary);" title="${ach.badge} on ${formatDate(ach.awardedAt)}">
-                        <div class="w-16 h-16">${badgeSVGs[ach.badge] || ''}</div>
-                        <p class="text-xs font-semibold mt-2 truncate w-full" style="color: var(--text-primary);">${ach.badge}</p>
-                    </div>
-                `).join('');
+                container.innerHTML = `<p class="col-span-full text-sm text-center py-4" style="color: var(--text-muted);">No achievements yet. Complete a challenge to earn one!</p>`;
+                return;
             }
 
-            containers.forEach(container => {
-                container.innerHTML = content;
-            });
+            const badgeSVGs = {
+                'Bronze Trader': `<svg viewBox="0 0 36 36" fill="#cd7f32" role="img" aria-label="Bronze Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
+                'Silver Trader': `<svg viewBox="0 0 36 36" fill="#c0c0c0" role="img" aria-label="Silver Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
+                'Gold Trader': `<svg viewBox="0 0 36 36" fill="#ffd700" role="img" aria-label="Gold Medal"><path d="M18 6.2a1 1 0 00-1 1v2.3a1 1 0 002 0V7.2a1 1 0 00-1-1z"></path><path d="M11.5 12.3a1 1 0 00-1.4 1.4l1.6 1.6a1 1 0 001.4-1.4zM24.5 12.3a1 1 0 00-1.4-1.4l-1.6 1.6a1 1 0 101.4 1.4z"></path><path d="M18 30a12 12 0 1112-12 12 12 0 01-12 12zm0-22a10 10 0 1010 10A10 10 0 0018 8z"></path><path d="M18 28a10 10 0 1110-10 10 10 0 01-10 10zm0-18a8 8 0 108 8 8 8 0 00-8-8z"></path><path d="M4 11h4v2H4zM28 11h4v2h-4z"></path><path d="M18 25a7 7 0 117-7 7 7 0 01-7 7zm0-12a5 5 0 105 5 5 5 0 00-5-5z"></path></svg>`,
+            };
+            
+            container.innerHTML = appState.achievements.map(ach => `
+                <div class="flex flex-col items-center p-2 rounded-lg transition-transform transform hover:scale-105" style="background-color: var(--bg-tertiary);" title="${ach.badge} on ${formatDate(ach.awardedAt)}">
+                    <div class="w-16 h-16">${badgeSVGs[ach.badge] || ''}</div>
+                    <p class="text-xs font-semibold mt-2 truncate w-full" style="color: var(--text-primary);">${ach.badge}</p>
+                </div>
+            `).join('');
         };
 
 
